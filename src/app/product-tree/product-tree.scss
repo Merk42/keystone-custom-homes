@@ -1,0 +1,172 @@
+.select-button {
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  background-color: var(--brand-secondary);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  margin: 0.25rem;
+}
+.select-button:hover {
+  cursor: pointer;
+}
+
+details {
+  overflow: hidden;
+}
+
+summary {
+  display: block;
+  border:2px solid transparent;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary:focus{
+  border-color: currentColor;
+}
+
+span[role="term"] {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-inline: 1rem;
+  background-color: var(--brand-primary);
+  color: #fff;
+  height: 3rem;
+}
+
+span[role="term"]:hover {
+  cursor: pointer;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 1rem;
+}
+.title {
+  flex-grow: 1;
+}
+.price {
+  white-space: nowrap;
+}
+/* START animated content */
+/* FYI this would be simpler with ::details-content, but that is not yet supported in Firefox. */
+/* It would stil expand and collapse in Firefox, however, would not ANIMATE.
+/* I was not sure if that concession was acceptable */
+/* https://caniuse.com/mdn-css_selectors_details-content */
+
+/* making some animation timings easily configurable */
+:host{
+  --_markerSpeed: 200ms;
+  --_expandSpeed: 400ms;
+  --_itemSpeed: .25s;
+  --_itemDelay: .125s;
+  --_itemTranslate: 50px;
+}
+div.content {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  padding-left:10px;
+  transition: grid-template-rows var(--_expandSpeed) ease-out
+}
+
+details[open] + div.content {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--_expandSpeed) ease-out;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  transition: visibility var(--_expandSpeed);
+  visibility: hidden;
+}
+li {
+  opacity: 0;
+  transform: translate(var(--_itemTranslate));
+  list-style-type: none;
+}
+
+details[open] + div.content > ul {
+/* make content vibility: visible only when expanded so tabbing does NOT focus to hidden entries */
+ visibility: visible;
+}
+/* Plus / Minus animation with before and after elements */
+span[role="term"]{
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap:.5rem;
+}
+span[role="term"]::before,
+span[role="term"]::after {
+  grid-row: 1;
+  grid-column: 1;
+  place-self: center;
+}
+span[role="term"]::before{
+  content: "";
+  display: block;
+  height:1rem;
+  width:.25rem;
+  background-color:#FFF;
+  transition: scale var(--_markerSpeed) ease-out;
+}
+details[open] span[role="term"]::before {
+  scale: 1 0.25;
+  transition: scale var(--_markerSpeed) ease-out;
+}
+span[role="term"]::after{
+  content: "";
+  display: block;
+  width:1rem;
+  height:.25rem;
+  background-color:#FFF;
+}
+/* END animated content */
+
+/* START child staggered animation */
+details + div.content > ul > li {
+  animation-duration: var(--_itemSpeed);
+  animation-delay: var(--_delay);
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+details:not([open]) + div.content > ul > li {
+  --_delay: calc(var(--index) * var(--_itemDelay) * -1);
+  animation-name: slideout;
+}
+details[open] + div.content > ul > li {
+  --_delay: calc(var(--index) * var(--_itemDelay));
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  from {
+    opacity: 0;
+    transform: translateX(var(--_itemTranslate));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes slideout {
+  from {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(var(--_itemTranslate));
+  }
+}
+/* END child staggered animation */

@@ -1,0 +1,12 @@
+#wrapper {
+  --_columns: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--_columns), minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media screen and (max-width:40em) {
+  #wrapper {
+    --_columns: 1;
+  }
+}

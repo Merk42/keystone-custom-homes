@@ -1,0 +1,27 @@
+<div class="config">
+  <label>cache size <input type="number" [(ngModel)]="size"/></label>
+  <div class="config">
+  <button class="single" (click)="mockAPIhit()">single call</button>
+  <button [class.autoon]="autoOn()" [class.autooff]="!autoOn()" (click)="toggleAuto()">auto call</button>
+  </div>
+</div>
+
+<table [class.cards]="cardLayout()">
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>endpoint</th>
+      <th>hits</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (USER of tableInfo(); track USER.name) {
+      <tr>
+        <td data-title="name">{{USER.name}}</td>
+        <td data-title="endpoint">{{USER.endpoint}}</td>
+        <td data-title="hits"class="hits">{{USER.hits}}</td>
+      </tr>
+    }
+  </tbody>
+</table>
+<p class="too-small">Screen too small? <button (click)="cardLayout.set(!cardLayout())">{{ cardLayout() ? `It's fine` : `Use Card Layout`}}</button></p>

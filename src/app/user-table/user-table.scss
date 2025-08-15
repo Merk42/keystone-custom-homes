@@ -1,0 +1,106 @@
+table {
+  border:1px solid currentColor;
+  width:100%
+}
+thead {
+  background-color: var(--brand-primary);
+  color:#FFF;
+}
+th {
+  text-align: left;
+  padding:.5rem;
+  text-transform: capitalize;
+}
+tr:nth-child(even) {
+  background-color: var(--light-gray);
+}
+td {
+  padding:.25rem;
+}
+.hits{
+  text-align: right;
+}
+/* optional card based "table" for smaller screens */
+@media screen and (max-width:40em) {
+  table.cards thead{
+    display: none;
+  }
+  table.cards td{
+    display: block;
+    text-align: left!important;
+  }
+  table.cards td::before{
+    content:attr(data-title);
+    display:block;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+}
+button {
+  padding:10px 15px;
+  border-radius: 3px;
+  border:1px solid transparent;
+  background-color: #FFF;
+  color:var(--brand-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+button.single {
+  border-color: var(--brand-primary);
+}
+
+button.autoon {
+  background-color: var(--brand-secondary);
+  color:#FFF;
+}
+
+button.autooff {
+  background-color: var(--brand-primary);
+  color:#FFF;
+}
+
+button.autoon::after,
+button.autooff::after{
+  content: "";
+  transition: clip-path .25s;
+  width: .875rem;
+  height: .875rem;
+  background-color: currentColor;
+  display: inline-block;
+  margin-left:.5rem;
+}
+button.autooff::after{
+  clip-path:polygon(0% 0%, 100% 50%, 100% 50%, 0% 100%)
+}
+button.autoon::after{
+  clip-path:polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)
+}
+
+.config {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+  gap:.5rem
+}
+
+label,
+input {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+label {
+  text-transform: uppercase;
+  color:var(--brand-primary);
+  font-size: .875rem;
+  font-weight: bold;
+}
+.too-small{
+  display: none;
+}
+@media screen and (max-width:40em) {
+ .too-small{
+    display: block;
+  }
+}
+

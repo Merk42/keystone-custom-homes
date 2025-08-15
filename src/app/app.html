@@ -1,0 +1,16 @@
+<main class="main" id="wrapper">
+  <div>
+    @if (!emittedPath()) {
+      <p style="margin-top:.25rem">Event not yet emitted:</p>
+    } @else {
+      <p style="margin-top:.25rem">Event emitted with the following data:</p>
+    }
+    <code style="min-height: 1rem; display: block;">{{emittedPath()}}</code>
+    <kch-product-tree [data]="formattedInput()" (pathEvent)="showPath($event)" />
+  </div>
+<div>
+  <kch-user-table></kch-user-table>
+
+</div>
+</main>
+<router-outlet />

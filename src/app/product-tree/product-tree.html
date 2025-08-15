@@ -1,0 +1,25 @@
+@if (!!data().children && data()!.children?.length) {
+  <details>
+    <summary>
+      <span role="term" [attr.aria-details]="id() + '-title'">
+        <span class="title">{{data().name}}</span>
+        <span class="price">{{data().maxChildPrice | currency}}</span>
+      </span>
+    </summary>
+  </details>
+  <div role="definition" [id]="id() + '-title'" class="content">
+    <ul class="inner">
+      @for (PRODUCT of data().children; track PRODUCT.name) {
+        <li [style.--index]="$index">
+          <kch-product-tree [data]="PRODUCT" [parents]="path()" (pathEvent)="bubbleEvent($event)" />
+        </li>
+      }
+    </ul>
+  </div>
+} @else {
+  <div class="heading">
+    <button class="select-button" (click)="emitPath()">select</button>
+    <span [id]="id() + '-title'" class="title">{{data().name}}</span>
+    <span class="price">{{data().price | currency}}</span>
+  </div>
+}
