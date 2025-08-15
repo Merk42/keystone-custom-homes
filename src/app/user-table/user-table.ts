@@ -77,6 +77,13 @@ export class UserTable {
 
   computedDisplay():User[] {
     return Array.from(this.dataCache.values()).sort((a, b) => b.hits - a.hits)
+    // this also works, without needing the values() method,
+    // but it means the keys get moved around a lot only to return to their original posiitons
+    const ORDER = this.dataCache.keys().reverse();
+    return ORDER.map( key => {
+      const USER = this.dataCache.get(key) || {name: '', endpoint: '', hits: 0, endpoints: new Map()}
+      return USER
+    }).sort((a, b) => b?.hits && a?.hits ? b.hits - a.hits : 0)
   }
 
   toggleAuto():void {
