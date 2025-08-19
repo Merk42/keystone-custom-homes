@@ -38,7 +38,20 @@ export class UserTable {
       }
     }, { injector: inject(Injector) });
     effect(() => {
+      const NEW_SIZE = this.size();
+      for (let i =0;i< DATA_SIZE; i++) {
+        this.dataCache.put(ORDER[i], DATA[i])
+      }
+      const ORDER = this.dataCache.keys().reverse();
+      const DATA_SIZE = Math.min(NEW_SIZE, ORDER.length);
+      const DATA = ORDER.map( key => {
+        const USER = this.dataCache.get(key) || {name: '', endpoint: '', hits: 0, endpoints: new Map()}
+        return USER
+      })
       this.dataCache = new LruCacheService<string, User>(this.size());
+      for (let i =0;i< DATA_SIZE; i++) {
+        this.dataCache.put(ORDER[i], DATA[i])
+      }
     })
   }
 
